@@ -27,7 +27,7 @@ namespace BDD_C__Exo
         {
             try
             {
-                string connectionString = "server=localhost;Database=ExoCBDatabase;user=root;password=root";
+                string connectionString = "server=localhost;Database=YOUDATABASENAME;user=USERNAME;password=PASSWORD";
 ;
                 var connection = new MySqlConnection(connectionString);
                 connection.Open();
