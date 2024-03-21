@@ -11,6 +11,7 @@ namespace BDD_C__Exo
             CreateDB();
             SeedDB();
             GetAllEmployee();
+            GetAnEmployeeAndHisCompany(1);
         }
         public static void CreateDB() 
         {
@@ -82,6 +83,28 @@ namespace BDD_C__Exo
 
                 Console.WriteLine("Read and Display done.");
             }
+        }
+        public static void GetAnEmployeeAndHisCompany(int idEmployee)
+        {
+            //Affichage d'un employé avec un WHERE par ID, en affichant son / ses entreprises + le nom du pays de l'entreprise
+            string idString = Convert.ToString(idEmployee);
+            Console.WriteLine("Reading database.. - GetAnEmployeeAndHisCompany -");
+            string sql = "SELECT Employee.Nom, Entreprise.Nom, Pays.nom FROM Employee ";
+            sql += "INNER JOIN Appartenir ON Employee.Id = Appartenir.IdEmployee ";
+            sql += "INNER JOIN Entreprise ON Appartenir.IdEntreprise = Entreprise.Id ";
+            sql += "INNER JOIN Pays ON Entreprise.Location = Pays.Id ";
+            sql += "WHERE Employee.Id = ";
+            sql += idString;
+
+            using (MySqlCommand command = new MySqlCommand(sql, Connection.GetInstance()))
+            {
+                using MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Console.WriteLine("L'employé {0} travail dans l'entreprise {1} dans le pays {2}",reader.GetString(0), reader.GetString(1), reader.GetString(2));
+                }
+            }
+            Console.WriteLine("- GetAnEmployeeAndHisCompany - SUCCES !");
         }
     }
 }
